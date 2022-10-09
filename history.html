@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stylehistory.css">
+    <script>
+        setInterval(() => window.addEventListener('storage', () => {
+            window.location.reload()
+        }), 100);
+    </script>
+</head>
+<body>
+<nav>
+    <a href="index.html" id="form-link">Form</a>
+    <a href="history.html" id="history-link">History</a>
+</nav>
+<div class="container">
+</div>
+<script>
+if (localStorage.length > 0) {
+    for (let i = 0; i < localStorage.length; i++) {
+        let card = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        let div = document.createElement('div');
+        div.className = "submit-history-card";
+        div.setAttribute("content", JSON.stringify(card));
+        div.innerHTML = `<p class="info">First Name</p>
+        <p class="card-first-name userinput">${card.firstName}</p>
+        <p class="info">Last Name</p>
+        <p class="card-last-name userinput">${card.lastName}</p>
+        <p class="info">Email</p>
+        <p class="card-email userinput">${card.email}</p>
+        <p class="info">Phone</p>
+        <p class="card-phone userinput">${card.phone}</p>
+        <p class="info">Company</p>
+        <p class="card-company userinput">${card.company}</p>
+        <p class="info">Address</p>
+        <p class="card-address userinput">${card.address}</p>
+        <button class="delete-button" type="button" onclick="deleteCard(this);">Delete</button>`;
+        document.querySelector(".container").appendChild(div);
+    }
+};
+
+    function deleteCard(element) {
+        let e = element.parentElement;
+        let keyToDel = e.getAttribute("content");
+        console.log(keyToDel);
+        e.remove();
+        localStorage.removeItem(keyToDel);
+    }
+</script>
+</body>
+</html>

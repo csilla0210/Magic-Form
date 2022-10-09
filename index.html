@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        setInterval(() => window.addEventListener('storage', () => {
+            window.location.reload()
+        }), 100);
+    </script>
+</head>
+<body>
+<nav>
+    <a href="index.html" id="form-link">Form</a>
+    <a href="history.html" id="history-link">History</a>
+</nav>
+<form>
+    <label for="first-name">First name<input type="text" id="first-name" name="first-name" required /></label>
+    <label for="last-name">Last name<input type="text" id="last-name" name="last-name" required /></label>
+    <label for="email">Email<input type="email" id="email" name="email" required /></label>
+    <label for="phone">Phone<input type="tel" id="phone" name="phone" required /></label>
+    <label for="company">Company<input type="text" id="company" name="company" required /></label>
+    <label for="address">Address<input type="text" id="address" name="address" required /></label>
+    <label for="submit-button"><input type="submit" value="Submit form" id="submit-button"></label>
+</form>
+<script>
+    let submitted = document.getElementById("submit-button");
+    submitted.addEventListener('click', submit);
+    let temporaryData = "temporary";
+    document.getElementById('first-name').addEventListener('input',function() {storeData(temporaryData)});
+    document.getElementById('last-name').addEventListener('input',function() {storeData(temporaryData)});
+    document.getElementById('email').addEventListener('input',function() {storeData(temporaryData)});
+    document.getElementById('phone').addEventListener('input',function() {storeData(temporaryData)});
+    document.getElementById('company').addEventListener('input',function() {storeData(temporaryData)});
+    document.getElementById('address').addEventListener('input',function() {storeData(temporaryData)});
+
+
+
+    let value = JSON.parse(localStorage.getItem(temporaryData));
+    if (value !== null){
+        document.getElementById("first-name").value = value.firstName;
+        document.getElementById("last-name").value = value.lastName;
+        document.getElementById("email").value = value.email;
+        document.getElementById("phone").value = value.phone;
+        document.getElementById("company").value = value.company;
+        document.getElementById("address").value = value.address;
+    }
+
+
+    function storeData(key) {
+        let value = formData();
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function submit() {
+        let validInputs = document.querySelector("form").reportValidity();
+        console.log(validInputs);
+        if (validInputs) {
+            let value = formData();
+            localStorage.setItem(JSON.stringify(value), JSON.stringify(value));
+            localStorage.removeItem(temporaryData);
+        }
+    }
+
+    function formData() {
+        return {
+            firstName : document.getElementById("first-name").value,
+            lastName : document.getElementById("last-name").value,
+            email : document.getElementById("email").value,
+            phone : document.getElementById("phone").value,
+            company : document.getElementById("company").value,
+            address : document.getElementById("address").value
+        }
+    }
+</script>
+</body>
+</html>
